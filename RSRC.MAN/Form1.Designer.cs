@@ -28,11 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series10 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series11 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series12 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.create_process = new System.Windows.Forms.Button();
             this.process_panel = new System.Windows.Forms.Panel();
             this.resources_chart = new System.Windows.Forms.DataVisualization.Charting.Chart();
@@ -62,27 +62,27 @@
             // 
             // resources_chart
             // 
-            chartArea4.Name = "ChartArea1";
-            this.resources_chart.ChartAreas.Add(chartArea4);
-            legend4.Name = "Legend1";
-            this.resources_chart.Legends.Add(legend4);
+            chartArea1.Name = "ChartArea1";
+            this.resources_chart.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.resources_chart.Legends.Add(legend1);
             this.resources_chart.Location = new System.Drawing.Point(282, 12);
             this.resources_chart.Name = "resources_chart";
-            series10.ChartArea = "ChartArea1";
-            series10.CustomProperties = "PointWidth=1";
-            series10.Legend = "Legend1";
-            series10.Name = "RAM";
-            series11.ChartArea = "ChartArea1";
-            series11.CustomProperties = "PointWidth=1";
-            series11.Legend = "Legend1";
-            series11.Name = "Semaphores";
-            series12.ChartArea = "ChartArea1";
-            series12.CustomProperties = "PointWidth=1";
-            series12.Legend = "Legend1";
-            series12.Name = "Interfaces";
-            this.resources_chart.Series.Add(series10);
-            this.resources_chart.Series.Add(series11);
-            this.resources_chart.Series.Add(series12);
+            series1.ChartArea = "ChartArea1";
+            series1.CustomProperties = "PointWidth=1";
+            series1.Legend = "Legend1";
+            series1.Name = "RAM";
+            series2.ChartArea = "ChartArea1";
+            series2.CustomProperties = "PointWidth=1";
+            series2.Legend = "Legend1";
+            series2.Name = "Semaphores";
+            series3.ChartArea = "ChartArea1";
+            series3.CustomProperties = "PointWidth=1";
+            series3.Legend = "Legend1";
+            series3.Name = "Interfaces";
+            this.resources_chart.Series.Add(series1);
+            this.resources_chart.Series.Add(series2);
+            this.resources_chart.Series.Add(series3);
             this.resources_chart.Size = new System.Drawing.Size(933, 300);
             this.resources_chart.TabIndex = 2;
             this.resources_chart.Text = "RAM";

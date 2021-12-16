@@ -11,6 +11,7 @@ namespace RSRC.MAN
     class Process
     {
         public static List<Process> Processes = new List<Process>();
+
         public static List<List<int>> AllocatedMatrix {
             get
             {
@@ -30,17 +31,23 @@ namespace RSRC.MAN
         }
 
         public bool Active = true;
+        public bool Initialized = false;
         public List<int> Max = new List<int>();
         public List<int> Allocated = new List<int>();
 
         private System.Timers.Timer timer;
         private static Random rand = new Random();  // Must be instantiated once!
 
+        public string Name;
+
         public Process()
         {
 
             // Add to Processes 
             Processes.Add(this);
+
+            // Name
+            Name = "Process #" + Process.Count;
 
             // Initialize Max
             for (int i=0; i<Resource.Count; i++)
@@ -54,6 +61,9 @@ namespace RSRC.MAN
             {
                 Allocated.Add(0);
             }
+
+            // Initial request && initialization
+            Request(null, null); 
 
             // Request timer
             timer = new System.Timers.Timer(2000);
@@ -85,6 +95,11 @@ namespace RSRC.MAN
             // If request is grated by the Banker's alogrithm
             if (granted)
             {
+                if (!Initialized)
+                {
+                    Initialized = true;
+                }
+
                 int allocated = Resource.Allocate(req_list);
 
                 for (int i=0; i<Allocated.Count; i++)
@@ -107,7 +122,11 @@ namespace RSRC.MAN
                 }
             } else
             {
-                Console.WriteLine("REQUEST HAS FAILED!");
+                // Terminate if initial allocation failed
+                if (Allocated.Sum() == 0)
+                {
+                    Terminate();
+                }
             }
 
             if (!Active)
@@ -116,7 +135,7 @@ namespace RSRC.MAN
                 timer.Close();
 
                 Console.WriteLine("TERMINATING: MAXED");
-                Terminate();
+                //Terminate();
             }
            
         }
@@ -127,9 +146,11 @@ namespace RSRC.MAN
             Process.Processes.Remove(this);
 
             // Stop the timer
-            timer.Stop();
-            timer.Close();
-
+            if (timer != null)
+            {
+                timer.Stop();
+                timer.Close();
+            }
             // Free the resources
             Resource.Free(Allocated);
         }
