@@ -28,11 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series10 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series11 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series12 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.create_process = new System.Windows.Forms.Button();
             this.process_panel = new System.Windows.Forms.Panel();
             this.resources_chart = new System.Windows.Forms.DataVisualization.Charting.Chart();
@@ -62,27 +62,27 @@
             // 
             // resources_chart
             // 
-            chartArea2.Name = "ChartArea1";
-            this.resources_chart.ChartAreas.Add(chartArea2);
-            legend2.Name = "Legend1";
-            this.resources_chart.Legends.Add(legend2);
+            chartArea4.Name = "ChartArea1";
+            this.resources_chart.ChartAreas.Add(chartArea4);
+            legend4.Name = "Legend1";
+            this.resources_chart.Legends.Add(legend4);
             this.resources_chart.Location = new System.Drawing.Point(282, 12);
             this.resources_chart.Name = "resources_chart";
-            series4.ChartArea = "ChartArea1";
-            series4.CustomProperties = "PointWidth=1";
-            series4.Legend = "Legend1";
-            series4.Name = "RAM";
-            series5.ChartArea = "ChartArea1";
-            series5.CustomProperties = "PointWidth=1";
-            series5.Legend = "Legend1";
-            series5.Name = "Semaphores";
-            series6.ChartArea = "ChartArea1";
-            series6.CustomProperties = "PointWidth=1";
-            series6.Legend = "Legend1";
-            series6.Name = "Interfaces";
-            this.resources_chart.Series.Add(series4);
-            this.resources_chart.Series.Add(series5);
-            this.resources_chart.Series.Add(series6);
+            series10.ChartArea = "ChartArea1";
+            series10.CustomProperties = "PointWidth=1";
+            series10.Legend = "Legend1";
+            series10.Name = "RAM";
+            series11.ChartArea = "ChartArea1";
+            series11.CustomProperties = "PointWidth=1";
+            series11.Legend = "Legend1";
+            series11.Name = "Semaphores";
+            series12.ChartArea = "ChartArea1";
+            series12.CustomProperties = "PointWidth=1";
+            series12.Legend = "Legend1";
+            series12.Name = "Interfaces";
+            this.resources_chart.Series.Add(series10);
+            this.resources_chart.Series.Add(series11);
+            this.resources_chart.Series.Add(series12);
             this.resources_chart.Size = new System.Drawing.Size(933, 300);
             this.resources_chart.TabIndex = 2;
             this.resources_chart.Text = "RAM";
@@ -99,7 +99,10 @@
             // 
             // backgroundWorker1
             // 
-            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
+            this.backgroundWorker1.WorkerReportsProgress = true;
+            this.backgroundWorker1.WorkerSupportsCancellation = true;
+            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork_1);
+            this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
             // 
             // Form1
             // 

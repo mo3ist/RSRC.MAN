@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace RSRC.MAN
@@ -57,6 +58,11 @@ namespace RSRC.MAN
             Resource r2 = new Resource();
             Resource r3 = new Resource();
             //fillResourceChars();
+
+            if (!backgroundWorker1.IsBusy)
+            {
+                backgroundWorker1.RunWorkerAsync();
+            }
         }
 
         private void fillResourceChars()
@@ -81,7 +87,34 @@ namespace RSRC.MAN
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
-            Console.WriteLine("hi");
+            
+        }
+
+        private void backgroundWorker1_DoWork_1(object sender, DoWorkEventArgs e)
+        {
+            List<int> available = Resource.AvailableVector;
+            while (true)
+            {
+                if (!available.SequenceEqual(Resource.AvailableVector))
+                {
+                    backgroundWorker1.ReportProgress(1);
+                }
+                Thread.Sleep(100);
+            }
+        }
+
+        private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            resources_chart.Series["RAM"].Points.Clear();
+            resources_chart.Series["Semaphores"].Points.Clear();
+            resources_chart.Series["Interfaces"].Points.Clear();
+            for (int i=0; i<Process.Count; i++)
+            {
+                for (int j=0; j<Resource.Count; j++)
+                {
+                    resources_chart.Series[j].Points.AddXY("Process "+i, Process.AllocatedMatrix[i][j]+"000");
+                }
+            }
         }
     }
 }
