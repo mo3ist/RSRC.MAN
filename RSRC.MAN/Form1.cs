@@ -139,15 +139,15 @@ namespace RSRC.MAN
             resources_chart.Series["Semaphores"].Points.Clear();
             resources_chart.Series["Interfaces"].Points.Clear();
 
-            for (int i=0; i<Process.Count; i++)
+            for (int i = 0; i < Process.Count; i++)
             {
-                for (int j=0; j<Resource.Count; j++)
+                for (int j = 0; j < Resource.Count; j++)
                 {
                     resources_chart.Series[j].Points.AddXY(Process.Processes[i].Name, Process.AllocatedMatrix[i][j]);
                 }
             }
 
-            foreach(ProgressBar item in process_panel.Controls.OfType<ProgressBar>().ToList())
+            foreach (ProgressBar item in process_panel.Controls.OfType<ProgressBar>().ToList())
             {
                 Process p = Process.Processes.Where(i => i.Name == item.Name).First();
                 item.Value = p.Allocated.Sum();

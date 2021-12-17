@@ -22,6 +22,20 @@ namespace RSRC.MAN
                 return matrix;
             }
         }
+
+        public static List<List<int>> MaxMatrix
+        {
+            get
+            {
+                List<List<int>> matrix = new List<List<int>>();
+                for (int i = 0; i < Processes.Count; i++)
+                {
+                    matrix.Add(Processes[i].Max);
+                }
+                return matrix;
+            }
+        }
+
         public static int Count
         {
             get
@@ -89,7 +103,14 @@ namespace RSRC.MAN
 
         public void Request(Object source, ElapsedEventArgs e)
         {
-            List<int> req_list = BuildRequestList();
+            //Request vector: req_vec
+            List<int> req_vec = BuildRequestList();
+
+            //Available resources: Resource.AvailableVector
+            //Max matrix: Process.MaxMatrix
+            //Allocated matrix: Process.AllocatedMatrix
+            //كسمك مش هكتب سطر كود تاني
+
             bool granted = rand.Next(2) == 1;
 
             // If request is grated by the Banker's alogrithm
@@ -100,11 +121,11 @@ namespace RSRC.MAN
                     Initialized = true;
                 }
 
-                int allocated = Resource.Allocate(req_list);
+                int allocated = Resource.Allocate(req_vec);
 
                 for (int i=0; i<Allocated.Count; i++)
                 {
-                    Allocated[i] += req_list[i];
+                    Allocated[i] += req_vec[i];
                 }
 
                 // Check if process has maxed
