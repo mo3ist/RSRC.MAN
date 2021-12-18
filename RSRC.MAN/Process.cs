@@ -10,6 +10,8 @@ namespace RSRC.MAN
 {
     class Process
     {
+        public static int RequestInterval = 1000;
+
         public static List<Process> Processes = new List<Process>();
 
         public static List<List<int>> AllocatedMatrix {
@@ -44,23 +46,27 @@ namespace RSRC.MAN
             }
         }
 
+        // Process is running
         public bool Active = true;
+
+        // Process has been created
         public bool Initialized = false;
+
         public List<int> Max = new List<int>();
         public List<int> Allocated = new List<int>();
 
         private System.Timers.Timer timer;
+
         private static Random rand = new Random();  // Must be instantiated once!
 
         public string Name;
 
         public Process()
         {
-
             // Add to Processes 
             Processes.Add(this);
 
-            // Name
+            // Name (works as a global id, too)
             Name = "Process #" + Process.Count;
 
             // Initialize Max
@@ -76,15 +82,27 @@ namespace RSRC.MAN
                 Allocated.Add(0);
             }
 
-            // Initial request && initialization
-            Request(null, null); 
-
             // Request timer
-            timer = new System.Timers.Timer(2000);
-            timer.Elapsed += Request;
-            timer.AutoReset = Active;
+            timer = new System.Timers.Timer();
+            timer.AutoReset = false;
+
+            // Initial request
             timer.Start();
 
+            timer.Elapsed +=
+            // Timer wrapper
+            (object sender, ElapsedEventArgs e) => 
+            {
+                // Stop and assign the interval
+                timer.Stop();
+                timer.Interval = RequestInterval;
+
+                // Call the request
+                Request();
+
+                // Start
+                timer.Start();
+            };
         }
 
         private List<int> BuildRequestList()
@@ -95,23 +113,52 @@ namespace RSRC.MAN
             List<int> vec = new List<int>();
             for (int i=0; i<Resource.Count; i++)
             {
-                vec.Add(rand.Next(Max[i] - Allocated[i] + 1));
+                vec.Add(
+                    rand.Next(
+                        Math.Min(5, Max[i]-Allocated[i]+1)
+                    )
+                );
             }
 
             return vec;
         }
 
-        public void Request(Object source, ElapsedEventArgs e)
+        public void Request()
         {
-            //Request vector: req_vec
             List<int> req_vec = BuildRequestList();
 
-            //Available resources: Resource.AvailableVector
-            //Max matrix: Process.MaxMatrix
-            //Allocated matrix: Process.AllocatedMatrix
-            //كسمك مش هكتب سطر كود تاني
+            int index = Processes.FindIndex(p => p.Name == this.Name);
 
-            bool granted = rand.Next(2) == 1;
+            if (index == -1)
+            {
+                Terminate();
+            }
+
+            List<List<int>> req_matrix = BankerCheck.intiateReq(index, new List<int>(req_vec));
+
+            List<List<int>> AllocatedMatrixCopy = new List<List<int>>();
+            foreach (List<int> vec in Process.AllocatedMatrix)
+            {
+                List<int> temp_vec = new List<int>();
+                foreach (int i in vec)
+                {
+                    temp_vec.Add(i);
+                }
+                AllocatedMatrixCopy.Add(temp_vec);
+            }
+
+            List<int> AvailableVectorCopy = new List<int>();
+            foreach (int i in Resource.AvailableVector)
+            {
+                AvailableVectorCopy.Add(i);
+            }
+
+            bool granted = BankerCheck.grantRequest(
+                Process.MaxMatrix,
+                AllocatedMatrixCopy,
+                req_matrix,
+                AvailableVectorCopy
+             );
 
             // If request is grated by the Banker's alogrithm
             if (granted)
@@ -141,7 +188,8 @@ namespace RSRC.MAN
                 {
                     Active = false;
                 }
-            } else
+            }
+            else
             {
                 // Terminate if initial allocation failed
                 if (Allocated.Sum() == 0)
@@ -152,11 +200,8 @@ namespace RSRC.MAN
 
             if (!Active)
             {
-                timer.Stop();
-                timer.Close();
-
-                Console.WriteLine("TERMINATING: MAXED");
-                //Terminate();
+                // Auto termination
+                Terminate();
             }
            
         }
@@ -167,11 +212,9 @@ namespace RSRC.MAN
             Process.Processes.Remove(this);
 
             // Stop the timer
-            if (timer != null)
-            {
-                timer.Stop();
-                timer.Close();
-            }
+            timer.Stop();
+            timer.Close();
+            
             // Free the resources
             Resource.Free(Allocated);
         }
