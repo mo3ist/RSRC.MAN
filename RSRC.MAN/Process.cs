@@ -11,6 +11,7 @@ namespace RSRC.MAN
     class Process
     {
         public static int RequestInterval = 1000;
+        public static int RequestStep = 100;
 
         public static List<Process> Processes = new List<Process>();
 
@@ -115,7 +116,7 @@ namespace RSRC.MAN
             {
                 vec.Add(
                     rand.Next(
-                        Math.Min(5, Max[i]-Allocated[i]+1)
+                        Math.Min(RequestStep, Max[i]-Allocated[i]+1)
                     )
                 );
             }
@@ -153,19 +154,34 @@ namespace RSRC.MAN
                 AvailableVectorCopy.Add(i);
             }
 
-            bool granted = BankerCheck.grantRequest(
-                Process.MaxMatrix,
-                AllocatedMatrixCopy,
-                req_matrix,
-                AvailableVectorCopy
-             );
+            Logger.Info(String.Format("{0}'s request is being checked.", Name));
+
+            bool granted;
+
+            //try
+            //{
+                granted = BankerCheck.grantRequest(
+                    Process.MaxMatrix,
+                    AllocatedMatrixCopy,
+                    req_matrix,
+                    AvailableVectorCopy
+                );
+            //} 
+            //catch
+            //{
+            //    granted = false;
+            //}
+            
 
             // If request is grated by the Banker's alogrithm
             if (granted)
             {
+                Logger.Warning(String.Format("{0}'s request was granted.", Name));
+
                 if (!Initialized)
                 {
                     Initialized = true;
+                    Logger.Debug(String.Format("{0} was created successfully.", Name));
                 }
 
                 int allocated = Resource.Allocate(req_vec);
@@ -191,16 +207,21 @@ namespace RSRC.MAN
             }
             else
             {
+                Logger.Error(String.Format("{0}'s request was denied.", Name));
+
                 // Terminate if initial allocation failed
                 if (Allocated.Sum() == 0)
                 {
                     Terminate();
+                    Logger.Fatal(String.Format("{0} was terminated due to a resource shortage.", Name));
                 }
             }
 
             if (!Active)
             {
                 // Auto termination
+                Logger.Debug(String.Format("{0} was terminated. Process has maxed.", Name));
+
                 Terminate();
             }
            

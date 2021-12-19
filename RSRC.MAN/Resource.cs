@@ -42,9 +42,11 @@ namespace RSRC.MAN
 
         public int Total = 100;
         public int Available = 100;
+        public string Name;
 
-        public Resource()
+        public Resource(string name)
         {
+            Name = name;
             Resources.Add(this);
         }
 
@@ -54,6 +56,15 @@ namespace RSRC.MAN
             {
                 Resources[i].Allocate(req_list[i]);
             }
+
+            string log_text = "";
+            foreach (int r in req_list)
+            {
+                log_text += r + ", ";
+            }
+
+            Logger.Warning(String.Format("[ {0} ] were allocated successfully.", log_text.Substring(0, log_text.Length-2)));
+
             return 1;
         }
 
@@ -63,6 +74,15 @@ namespace RSRC.MAN
             {
                 Resources[i].Free(req_list[i]);
             }
+
+            string log_text = "";
+            foreach (int r in req_list)
+            {
+                log_text += r + " ";
+            }
+
+            Logger.Warning(String.Format("[ {0} ] were freed successfully.", log_text.Substring(0, log_text.Length - 2)));
+
             return 1;
         }
 

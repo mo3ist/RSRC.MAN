@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Windows.Forms;
+using System.IO;
 
 namespace RSRC.MAN
 {
@@ -28,9 +29,6 @@ namespace RSRC.MAN
 
         private void addProcess()
         {
-
-            logger.Text += "Process Created\n";
-
             Process p = new Process();
 
             Label p_text = new Label();
@@ -84,16 +82,33 @@ namespace RSRC.MAN
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            Resource r1 = new Resource();
-            Resource r2 = new Resource();
-            Resource r3 = new Resource();
+            // Create the resources
+            Resource RAM = new Resource("RAM");
+            Resource Semaphores = new Resource("Semaphores");
+            Resource Interfaces = new Resource("Interfaces");
 
-            resources_chart.ChartAreas[0].AxisY.Maximum = r1.Total;
+            // Initialize the charts
+            resources_chart.ChartAreas[0].AxisY.Maximum = RAM.Total;
 
+            available_chart.ChartAreas[0].AxisY.Maximum = RAM.Total;
+            for (int i = 0; i < Resource.Count; i++)
+            {
+                available_chart.Series[i].Points.AddXY("", Resource.Resources[i].Available);
+            }
+
+            // Start the background worker
             if (!backgroundWorker1.IsBusy)
             {
                 backgroundWorker1.RunWorkerAsync();
             }
+
+            // Create the logger
+            RichFilterableTextBox logger = new RichFilterableTextBox();
+            logger.Location = new Point(282, 355);
+            logger.Size = new Size(933, 295);
+            logger.Name = "logger";
+            logger.HideSelection = false;
+            this.Controls.Add(logger);
         }
 
         private void ram_Click(object sender, EventArgs e)
@@ -146,6 +161,16 @@ namespace RSRC.MAN
                 }
             }
 
+            // Plot the data
+            available_chart.Series["RAM"].Points.Clear();
+            available_chart.Series["Semaphores"].Points.Clear();
+            available_chart.Series["Interfaces"].Points.Clear();
+
+            for (int i = 0; i < Resource.Count; i++)
+            {
+                available_chart.Series[i].Points.AddXY("", Resource.Resources[i].Available);
+            }
+
             // Remove terminated process's controls
             foreach (Control item in process_panel.Controls)
             {
@@ -166,11 +191,32 @@ namespace RSRC.MAN
                 Process p = Process.Processes.Where(i => i.Name == item.Name).First();
                 if (p != null)
                 {
+                    item.Maximum = p.Max.Sum(); // IDK. a hack for an error I don't understand :'
+
                     item.Value = p.Allocated.Sum();
                     if (!p.Active)
                     {
                         process_panel.Controls.Remove(item);
                     }
+                }
+            }
+
+            // Update the logger
+            RichFilterableTextBox logger = this.Controls.OfType<RichFilterableTextBox>().ToList().Find(i => i.Name == "logger");
+
+            using (RichFilterableTextBox temp_logger = new RichFilterableTextBox())
+            {
+                temp_logger.Rtf = Logger.GetLog();
+                temp_logger.ApplyFilter(filter.Text);
+
+
+                // Setting this indirectly is cool hack to prevent glitching (all the text gets rendered then filtered instantly)
+                logger.Rtf = temp_logger.Rtf;
+
+                // Scroll to bottom
+                if (autoscroll.Checked)
+                {
+                    logger.SelectionStart = logger.Text.Length;
                 }
             }
         }
@@ -181,6 +227,15 @@ namespace RSRC.MAN
         }
 
         private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void filter_TextChanged(object sender, EventArgs e)
+        {
+        }
+
+        private void Available_Click(object sender, EventArgs e)
         {
 
         }
