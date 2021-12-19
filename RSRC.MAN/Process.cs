@@ -12,6 +12,7 @@ namespace RSRC.MAN
     {
         public static int RequestInterval = 500;
         public static int RequestStep = 5;
+        public static int Counter = 1;
 
         public static List<Process> Processes = new List<Process>();
 
@@ -68,7 +69,8 @@ namespace RSRC.MAN
             Processes.Add(this);
 
             // Name (works as a global id, too)
-            Name = "Process #" + Process.Count;
+            Name = "Process #" + Process.Counter;
+            Counter++;
 
             // Initialize Max
             for (int i=0; i<Resource.Count; i++)

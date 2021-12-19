@@ -28,19 +28,19 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend5 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series13 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series14 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series15 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title7 = new System.Windows.Forms.DataVisualization.Charting.Title();
-            System.Windows.Forms.DataVisualization.Charting.Title title8 = new System.Windows.Forms.DataVisualization.Charting.Title();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea6 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend6 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series16 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series17 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series18 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title9 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.Title title2 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title3 = new System.Windows.Forms.DataVisualization.Charting.Title();
             this.create_process = new System.Windows.Forms.Button();
             this.process_panel = new System.Windows.Forms.Panel();
             this.resources_chart = new System.Windows.Forms.DataVisualization.Charting.Chart();
@@ -81,39 +81,39 @@
             // 
             // resources_chart
             // 
-            chartArea5.Name = "ChartArea1";
-            this.resources_chart.ChartAreas.Add(chartArea5);
-            legend5.Name = "Legend1";
-            this.resources_chart.Legends.Add(legend5);
+            chartArea1.Name = "ChartArea1";
+            this.resources_chart.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.resources_chart.Legends.Add(legend1);
             this.resources_chart.Location = new System.Drawing.Point(282, 12);
             this.resources_chart.Name = "resources_chart";
-            series13.ChartArea = "ChartArea1";
-            series13.CustomProperties = "PointWidth=1";
-            series13.Legend = "Legend1";
-            series13.Name = "RAM";
-            series14.ChartArea = "ChartArea1";
-            series14.CustomProperties = "PointWidth=1";
-            series14.Legend = "Legend1";
-            series14.Name = "Semaphores";
-            series15.ChartArea = "ChartArea1";
-            series15.CustomProperties = "PointWidth=1";
-            series15.Legend = "Legend1";
-            series15.Name = "Interfaces";
-            this.resources_chart.Series.Add(series13);
-            this.resources_chart.Series.Add(series14);
-            this.resources_chart.Series.Add(series15);
+            series1.ChartArea = "ChartArea1";
+            series1.CustomProperties = "PointWidth=1";
+            series1.Legend = "Legend1";
+            series1.Name = "RAM";
+            series2.ChartArea = "ChartArea1";
+            series2.CustomProperties = "PointWidth=1";
+            series2.Legend = "Legend1";
+            series2.Name = "Semaphores";
+            series3.ChartArea = "ChartArea1";
+            series3.CustomProperties = "PointWidth=1";
+            series3.Legend = "Legend1";
+            series3.Name = "Interfaces";
+            this.resources_chart.Series.Add(series1);
+            this.resources_chart.Series.Add(series2);
+            this.resources_chart.Series.Add(series3);
             this.resources_chart.Size = new System.Drawing.Size(609, 300);
             this.resources_chart.TabIndex = 2;
             this.resources_chart.Text = "Resources";
-            title7.Alignment = System.Drawing.ContentAlignment.BottomCenter;
-            title7.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom;
-            title7.Name = "Processes";
-            title7.Text = "Processes";
-            title8.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Left;
-            title8.Name = "Resource Capacity";
-            title8.Text = "Resource Capacity";
-            this.resources_chart.Titles.Add(title7);
-            this.resources_chart.Titles.Add(title8);
+            title1.Alignment = System.Drawing.ContentAlignment.BottomCenter;
+            title1.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom;
+            title1.Name = "Processes";
+            title1.Text = "Processes";
+            title2.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Left;
+            title2.Name = "Resource Capacity";
+            title2.Text = "Resource Capacity";
+            this.resources_chart.Titles.Add(title1);
+            this.resources_chart.Titles.Add(title2);
             this.resources_chart.Click += new System.EventHandler(this.ram_Click);
             // 
             // backgroundWorker1
@@ -162,32 +162,32 @@
             // 
             // available_chart
             // 
-            chartArea6.Name = "ChartArea1";
-            this.available_chart.ChartAreas.Add(chartArea6);
-            legend6.Name = "Legend1";
-            this.available_chart.Legends.Add(legend6);
+            chartArea2.Name = "ChartArea1";
+            this.available_chart.ChartAreas.Add(chartArea2);
+            legend2.Name = "Legend1";
+            this.available_chart.Legends.Add(legend2);
             this.available_chart.Location = new System.Drawing.Point(898, 13);
             this.available_chart.Name = "available_chart";
             this.available_chart.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Bright;
             this.available_chart.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            series16.ChartArea = "ChartArea1";
-            series16.Legend = "Legend1";
-            series16.Name = "RAM";
-            series17.ChartArea = "ChartArea1";
-            series17.Legend = "Legend1";
-            series17.Name = "Semaphores";
-            series18.ChartArea = "ChartArea1";
-            series18.Legend = "Legend1";
-            series18.Name = "Interfaces";
-            this.available_chart.Series.Add(series16);
-            this.available_chart.Series.Add(series17);
-            this.available_chart.Series.Add(series18);
+            series4.ChartArea = "ChartArea1";
+            series4.Legend = "Legend1";
+            series4.Name = "RAM";
+            series5.ChartArea = "ChartArea1";
+            series5.Legend = "Legend1";
+            series5.Name = "Semaphores";
+            series6.ChartArea = "ChartArea1";
+            series6.Legend = "Legend1";
+            series6.Name = "Interfaces";
+            this.available_chart.Series.Add(series4);
+            this.available_chart.Series.Add(series5);
+            this.available_chart.Series.Add(series6);
             this.available_chart.Size = new System.Drawing.Size(317, 300);
             this.available_chart.TabIndex = 10;
             this.available_chart.Text = "Available";
-            title9.Name = "Available Resources";
-            title9.Text = "Available Resources";
-            this.available_chart.Titles.Add(title9);
+            title3.Name = "Available Resources";
+            title3.Text = "Available Resources";
+            this.available_chart.Titles.Add(title3);
             // 
             // linkLabel1
             // 
