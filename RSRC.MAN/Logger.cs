@@ -22,40 +22,6 @@ namespace RSRC.MAN
 
         }
 
-        // https://stackoverflow.com/a/61798112
-        private static string ConvertToRtf(string text)
-        {
-            // using default template from wiki
-            StringBuilder sb = new StringBuilder(@"{\rtf1\ansi\ansicpg1250\deff0{\fonttbl\f0\fswiss Helvetica;}\f0\pard ");
-            foreach (char character in text)
-            {
-                if (character <= 0x7f)
-                {
-                    // escaping rtf characters
-                    switch (character)
-                    {
-                        case '\\':
-                        case '{':
-                        case '}':
-                            sb.Append('\\');
-                            break;
-                        case '\r':
-                            sb.Append("\\par");
-                            break;
-                    }
-
-                    sb.Append(character);
-                }
-                // converting special characters
-                else
-                {
-                    sb.Append("\\u" + Convert.ToUInt32(character) + "?");
-                }
-            }
-            sb.Append("}");
-            return sb.ToString();
-        }
-
         private static void Write(string message, Color color, Font font)
         {
             using (RichTextBox RTB = new RichTextBox())

@@ -10,8 +10,8 @@ namespace RSRC.MAN
 {
     class Process
     {
-        public static int RequestInterval = 1000;
-        public static int RequestStep = 100;
+        public static int RequestInterval = 500;
+        public static int RequestStep = 5;
 
         public static List<Process> Processes = new List<Process>();
 
@@ -87,23 +87,11 @@ namespace RSRC.MAN
             timer = new System.Timers.Timer();
             timer.AutoReset = false;
 
+            timer.Elapsed += Request;
             // Initial request
             timer.Start();
 
-            timer.Elapsed +=
-            // Timer wrapper
-            (object sender, ElapsedEventArgs e) => 
-            {
-                // Stop and assign the interval
-                timer.Stop();
-                timer.Interval = RequestInterval;
 
-                // Call the request
-                Request();
-
-                // Start
-                timer.Start();
-            };
         }
 
         private List<int> BuildRequestList()
@@ -124,8 +112,13 @@ namespace RSRC.MAN
             return vec;
         }
 
-        public void Request()
+        public void Request(object sender, ElapsedEventArgs e)
         {
+
+            timer.Stop();
+            timer.Interval = RequestInterval;
+
+
             List<int> req_vec = BuildRequestList();
 
             int index = Processes.FindIndex(p => p.Name == this.Name);
@@ -133,6 +126,8 @@ namespace RSRC.MAN
             if (index == -1)
             {
                 Terminate();
+
+                return;
             }
 
             List<List<int>> req_matrix = BankerCheck.intiateReq(index, new List<int>(req_vec));
@@ -148,6 +143,17 @@ namespace RSRC.MAN
                 AllocatedMatrixCopy.Add(temp_vec);
             }
 
+            List<List<int>> MaxMatrixCopy = new List<List<int>>();
+            foreach (List<int> vec in Process.MaxMatrix)
+            {
+                List<int> temp_vec = new List<int>();
+                foreach (int i in vec)
+                {
+                    temp_vec.Add(i);
+                }
+                MaxMatrixCopy.Add(temp_vec);
+            }
+
             List<int> AvailableVectorCopy = new List<int>();
             foreach (int i in Resource.AvailableVector)
             {
@@ -156,22 +162,12 @@ namespace RSRC.MAN
 
             Logger.Info(String.Format("{0}'s request is being checked.", Name));
 
-            bool granted;
-
-            //try
-            //{
-                granted = BankerCheck.grantRequest(
-                    Process.MaxMatrix,
-                    AllocatedMatrixCopy,
-                    req_matrix,
-                    AvailableVectorCopy
-                );
-            //} 
-            //catch
-            //{
-            //    granted = false;
-            //}
-            
+            bool granted = BankerCheck.grantRequest(
+                MaxMatrixCopy,
+                AllocatedMatrixCopy,
+                req_matrix,
+                AvailableVectorCopy
+             );
 
             // If request is grated by the Banker's alogrithm
             if (granted)
@@ -203,6 +199,13 @@ namespace RSRC.MAN
                 if (maxed)
                 {
                     Active = false;
+
+                    // Auto termination
+                    Logger.Debug(String.Format("{0} was terminated. Process has maxed.", Name));
+
+                    Terminate();
+
+                    return;
                 }
             }
             else
@@ -212,19 +215,17 @@ namespace RSRC.MAN
                 // Terminate if initial allocation failed
                 if (Allocated.Sum() == 0)
                 {
-                    Terminate();
                     Logger.Fatal(String.Format("{0} was terminated due to a resource shortage.", Name));
+
+                    Terminate();
+
+                    return;
                 }
             }
 
-            if (!Active)
-            {
-                // Auto termination
-                Logger.Debug(String.Format("{0} was terminated. Process has maxed.", Name));
 
-                Terminate();
-            }
-           
+            // Start
+            timer.Start();
         }
 
         public void Terminate()

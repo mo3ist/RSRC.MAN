@@ -78,7 +78,7 @@ namespace RSRC.MAN
             string log_text = "";
             foreach (int r in req_list)
             {
-                log_text += r + " ";
+                log_text += r + ", ";
             }
 
             Logger.Warning(String.Format("[ {0} ] were freed successfully.", log_text.Substring(0, log_text.Length - 2)));
@@ -88,20 +88,12 @@ namespace RSRC.MAN
 
         private int Allocate(int req)
         {
-            if (Available-req < 0)
-            {
-                return -1;
-            }
             Available -= req;
             return 1;
         }
 
         private int Free(int req)
         {
-            if (Available+req > Total)
-            {
-                return -1;
-            }
             Available += req;
             return 1;
         }

@@ -7,6 +7,7 @@ using System.Windows.Forms;
 
 namespace RSRC.MAN
 {
+    // https://stackoverflow.com/a/60445431
     public class RichFilterableTextBox : RichTextBox
     {
         private Timer timer;

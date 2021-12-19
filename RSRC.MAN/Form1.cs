@@ -70,7 +70,11 @@ namespace RSRC.MAN
 
                 process_panel.Controls.Remove(terminate_process);
 
-                p.Terminate();
+                if (p.Active)
+                {
+                    p.Terminate();
+                }
+
             };
 
             process_panel.Controls.Add(p_text);
@@ -128,6 +132,7 @@ namespace RSRC.MAN
                 if (!available.SequenceEqual(Resource.AvailableVector))
                 {
                     backgroundWorker1.ReportProgress(1);
+                    available = Resource.AvailableVector;
                 }
                 Thread.Sleep(100);
             }
@@ -221,23 +226,14 @@ namespace RSRC.MAN
             }
         }
 
-        private void label1_Click(object sender, EventArgs e)
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-
+            System.Diagnostics.Process.Start("http://github.com/mo3ist/");
         }
 
-        private void label2_Click(object sender, EventArgs e)
+        private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-
-        }
-
-        private void filter_TextChanged(object sender, EventArgs e)
-        {
-        }
-
-        private void Available_Click(object sender, EventArgs e)
-        {
-
+            System.Diagnostics.Process.Start("https://github.com/bhc-03");
         }
     }
 }
