@@ -57,11 +57,12 @@ namespace RSRC.MAN
         public List<int> Max = new List<int>();
         public List<int> Allocated = new List<int>();
 
-        private System.Timers.Timer timer;
-
         private static Random rand = new Random();  // Must be instantiated once!
 
         public string Name;
+
+        private Thread timer;
+        private readonly object requestLock = new object();
 
         public Process()
         {
@@ -85,15 +86,21 @@ namespace RSRC.MAN
                 Allocated.Add(0);
             }
 
-            // Request timer
-            timer = new System.Timers.Timer();
-            timer.AutoReset = false;
-
-            timer.Elapsed += Request;
-            // Initial request
+            Thread timer = new Thread(Timer);
             timer.Start();
+            
+        }
 
-
+        private void Timer()
+        {
+            while (Active)
+            {
+                Thread request = new Thread(Request);
+                request.Start();
+                request.Join();
+                Thread.Sleep(RequestInterval);
+                request.Abort();
+            }
         }
 
         private List<int> BuildRequestList()
@@ -114,13 +121,9 @@ namespace RSRC.MAN
             return vec;
         }
 
-        public void Request(object sender, ElapsedEventArgs e)
+        //public void Request(object sender, ElapsedEventArgs e)
+        public void Request()
         {
-
-            timer.Stop();
-            timer.Interval = RequestInterval;
-
-
             List<int> req_vec = BuildRequestList();
 
             int index = Processes.FindIndex(p => p.Name == this.Name);
@@ -182,11 +185,15 @@ namespace RSRC.MAN
                     Logger.Debug(String.Format("{0} was created successfully.", Name));
                 }
 
-                int allocated = Resource.Allocate(req_vec);
-
-                for (int i=0; i<Allocated.Count; i++)
+                // Lock resource allocation operations
+                lock (requestLock)
                 {
-                    Allocated[i] += req_vec[i];
+                    int allocated = Resource.Allocate(req_vec);
+
+                    for (int i=0; i<Allocated.Count; i++)
+                    {
+                        Allocated[i] += req_vec[i];
+                    }
                 }
 
                 // Check if process has maxed
@@ -224,10 +231,6 @@ namespace RSRC.MAN
                     return;
                 }
             }
-
-
-            // Start
-            timer.Start();
         }
 
         public void Terminate()
@@ -236,8 +239,10 @@ namespace RSRC.MAN
             Process.Processes.Remove(this);
 
             // Stop the timer
-            timer.Stop();
-            timer.Close();
+            if (timer != null)
+            {
+                timer.Abort();
+            }
             
             // Free the resources
             Resource.Free(Allocated);

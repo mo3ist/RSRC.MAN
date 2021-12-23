@@ -12,12 +12,6 @@ namespace RSRC.MAN
         {
             List<List<int>> initialNeed = calculateInitialNeed(Max, alloc);//Calculate the need
                                                                            // check if the request is less than the available
-            
-            //for (int i=0; i<Max.Count; i++)
-            //{
-            //    if (alloc)
-            //}
-
             bool checkingres1 = checkReqAvail(Req, avail);
             if (checkingres1 == false) return false;
 
